@@ -9,39 +9,35 @@ Client::Client(std::string ip, int PORT)
   addr.sin_addr.s_addr = inet_addr(ip.c_str());
   addr.sin_port = htons(PORT);
   addr.sin_family = AF_INET;
+  window.show();
 
 }
 
 bool Client::Connect()
 {
     toServer = socket(AF_INET,SOCK_STREAM,NULL);
-    std::string test;
     int sizeofaddr = sizeof(addr);
     if(connect(toServer,(sockaddr*)&addr,sizeofaddr)!=0)
     {
-        std::cout<<"Error connecting to the server\n";
-        std::cout<<"Enter any key to continue.";
-        std::cin>>test;
+        window.writeToServerArea("Failed to connect to the server");
         return false;
     }
 
 
     if(toServer!=INVALID_SOCKET)
     {
-       QString buffer = "";
+       std::cout<<"Socket is invalid.\n";
+       std::string buffer = "";
        int bufferLength = 0;
        recv(toServer,(char*)&bufferLength,sizeof(int),NULL);
        char * _buffer = new char[bufferLength+1];
        _buffer[bufferLength] = '\0';
        recv(toServer,_buffer,bufferLength,NULL);
        buffer = _buffer;
-       window->writeToServerArea("Message Recvd: ");
-       window->writeToServerArea(buffer);
+       QString message(_buffer);
+       window.writeToServerArea(message);
+
     }
     return true;
 }
 
-void Client::bindWindow(MainWindow *window)
-{
-    this->window = window;
-}

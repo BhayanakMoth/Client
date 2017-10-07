@@ -25,7 +25,7 @@ private:
 private:
   SOCKET toServer;
   SOCKADDR_IN addr;
-  MainWindow * window;
+  MainWindow  window;
 };
 
 #endif // CLIENT_H
