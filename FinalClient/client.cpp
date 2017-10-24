@@ -9,7 +9,7 @@ Client::Client(std::string ip, int PORT)
   addr.sin_addr.s_addr = inet_addr(ip.c_str());
   addr.sin_port = htons(PORT);
   addr.sin_family = AF_INET;
-
+  clientPtr = this;
 }
 
 bool Client::Connect()
@@ -37,7 +37,7 @@ bool Client::Connect()
        buffer = _buffer;
        window->writeToServerArea("Message Recvd: ");
        window->writeToServerArea(buffer);
-	   CreateThread(NULL,NULL,NULL,(LP_THREAD_ROUTINE)ClientInputThread,NULL,NULL);
+       CreateThread(NULL,NULL,(LPTHREAD_START_ROUTINE)ClientInputThread,NULL,NULL,NULL);
     }
     return true;
 }
@@ -51,12 +51,14 @@ void Client::Input()
 	while(true)
 	{
 		//Take Input from UI and store it in std::string message;
-		
-		std::string message;
-		int len = message.length();
+        if(window->isReturnPressed())
+        {
+        std::string message = window->getMessage();
+        int len = message.length();
 		send(toServer,(char*)&len,4,NULL);
 		send(toServer,message.c_str(),len,0);
-		
+        window->resetReturnPressed();
+        }
 	}
 }
 void Client::ClientInputThread()
@@ -64,13 +66,13 @@ void Client::ClientInputThread()
 	int len = 0;
 	while(true)
     {
-	   	int recvCheck = recv(toServer,(char*)&len,4,NULL);
+        int recvCheck = recv(clientPtr->toServer,(char*)&len,4,NULL);
 		if(recvCheck != SOCKET_ERROR&&recvCheck!=0)
 		{
 			char * message = new char[len+1];
 			message[len] = '\0';
-			recvCheck = recv(toServer,message,len,NULLL);
-			window->writeToServerArea(message);
+            recvCheck = recv(clientPtr->toServer,message,len,NULL);
+            clientPtr->window->writeToServerArea(message);
 			delete [] message;
 		}
 	}

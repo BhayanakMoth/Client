@@ -28,5 +28,5 @@ private:
   SOCKADDR_IN addr;
   MainWindow * window;
 };
-
+static Client *clientPtr;
 #endif // CLIENT_H

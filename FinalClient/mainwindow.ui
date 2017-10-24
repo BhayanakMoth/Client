@@ -20,7 +20,17 @@
       <x>15</x>
       <y>30</y>
       <width>361</width>
-      <height>192</height>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="messageInput">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>361</width>
+      <height>20</height>
      </rect>
     </property>
    </widget>
