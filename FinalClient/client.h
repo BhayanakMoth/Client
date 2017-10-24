@@ -19,13 +19,14 @@ public:
   Client(std::string ip, int PORT);
   bool Connect();
   void bindWindow(MainWindow *window);
+  void Input();
 private:
   static void ClientInputThread();
   bool ProcessPacket(Packet packetType);
 private:
   SOCKET toServer;
   SOCKADDR_IN addr;
-  MainWindow  window;
+  MainWindow * window;
 };
 
 #endif // CLIENT_H
