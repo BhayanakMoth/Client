@@ -9,3 +9,6 @@ Or
 2.) Enter the external IP for Server.
 
 Server Machine will require portforwarding if connecting over the internet using external IP.
+
+Based on WinSock tutorial by Jpres:
+https://www.youtube.com/watch?v=sBFohRqdBcE&list=PLcacUGyBsOIA1YUqvKd7p8uvsG_FCt7-U
